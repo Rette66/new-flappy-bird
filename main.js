@@ -1,3 +1,5 @@
+import PIXI from 'pixi.js';
+
 // Create a Pixi Application
 let app = new PIXI.Application({
     width: 600,   // Width of the canvas
@@ -13,14 +15,16 @@ let app = new PIXI.Application({
 document.body.appendChild(app.view);
 
 
-let bird, gravity = 0.01, lift = -1, velocity = 0
+let bird, gravity = 0.1, lift = -5, velocity = 0
+
+// window.addEventListener('space',() =>  );
 
 // Load an image and create a sprite
 PIXI.Loader.shared
     .add("pipeTop", "Assets/pipe-top.png")
     .add("pipeBottom", "Assets/pipe-bottom.png")
     .add('bird', 'Assets/birdFrames.json')
-    .load(setup);
+    .load(setup)
 
 function setup() {
 
@@ -57,6 +61,7 @@ function setup() {
     window.addEventListener('keydown', flap );
     app.ticker.add(gameLoop);
 
+    window.removeEventListener('space', flap);
     createPipes();
 }
 
@@ -76,7 +81,7 @@ let pipes = [];
 const pipeGap = 300; // Space between the top and bottom pipes
 const pipeSpeed = 1; // Speed at which pipes move
 const pipeSpacing = 300; // Distance between successive pipes
-const pipeInterval = 2000;
+const pipeInterval = 200;
  pipeTimer = 0;
 
 function createPipes() {
@@ -99,7 +104,7 @@ function createPipes() {
 
     pipeBottom.x = pipeX;
     pipeBottom.y = pipeY + pipeGap;
-
+// console.log("createpipe")
     // Add pipes to stage
     app.stage.addChild(pipeTop);
     app.stage.addChild(pipeBottom);
@@ -129,7 +134,7 @@ function gameLoop(delta) {
 
     // Update the pipe timer
     pipeTimer += app.ticker.deltaTime;
-
+    // console.log(pipeTimer)
 
     // Check if it's time to create a new pipe
     if (pipeTimer >= pipeInterval) {
@@ -151,17 +156,47 @@ function gameLoop(delta) {
     if (bird.y > app.screen.height || bird.y < 0) {
         resetGame();
     }
-}
+
+    // if (hitTestRectangle(bird, pipes)) {
+    //     console.log("Bird hit the top pipe!");
+    // }
+
+//     if (hitTestRectangle(bird, pipeBottom)) {
+//         console.log("Bird hit the bottom pipe!");
+//     }
+// }
+
+    // function resetGame() {
+    //     // Remove all pipes from the stage
+    //     for (let i = pipes.length - 1; i >= 0; i--) {
+    //         app.stage.removeChild(pipes[i].top);
+    //         app.stage.removeChild(pipes[i].bottom);
+    //         pipes.splice(i, 1);
+    //     }
+
+    //     // Reset the pipe timer
+    //     pipeTimer = 0;
+
+    //     // Create the first set of pipes again
+    //     createPipes();
+    // }
 
 
-function hitTestRectangle(r1, r2) {
-    // 定义两个对象的边界
-    let r1Bounds = r1.getBounds();
-    let r2Bounds = r2.getBounds();
 
-    // 检查是否重叠
-    return r1Bounds.x < r2Bounds.x + r2Bounds.width &&
-           r1Bounds.x + r1Bounds.width > r2Bounds.x &&
-           r1Bounds.y < r2Bounds.y + r2Bounds.height &&
-           r1Bounds.y + r1Bounds.height > r2Bounds.y;
+    function hitTestRectangle(r1, r2) {
+
+        r2.array.forEach(element => {
+                // 定义两个对象的边界
+        let r1Bounds = r1.getBounds();
+        let r2Bounds = element.getBounds();
+
+        // 检查是否重叠
+        return r1Bounds.x < r2Bounds.x + r2Bounds.width &&
+            r1Bounds.x + r1Bounds.width > r2Bounds.x &&
+            r1Bounds.y < r2Bounds.y + r2Bounds.height &&
+            r1Bounds.y + r1Bounds.height > r2Bounds.y;
+        }
+        );
+
+    }
 }

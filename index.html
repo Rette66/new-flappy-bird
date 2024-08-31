@@ -15,65 +15,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/5.3.3/pixi.min.js"></script>
     <script src="main.js"></script>
     <!-- <script src="pipes.js"></script> -->
-    <!-- <script>
-        // 初始化PixiJS应用
-        const app = new PIXI.Application({ width: 600, height: 1000 });
-        document.body.appendChild(app.view);
 
-        // 加载资源
-        PIXI.Loader.shared.add("bird", "Assets/bird.png");
-        PIXI.Loader.shared.add("pipe", "pipe.png");
-        PIXI.Loader.shared.add("background", "background.png");
-
-        PIXI.Loader.shared.onComplete.add(() => {
-            // 创建游戏元素
-            const background = new PIXI.Sprite(PIXI.Loader.shared.resources.background.texture);
-            app.stage.addChild(background);
-
-            const bird = new PIXI.Sprite(PIXI.Loader.shared.resources.bird.texture);
-            bird.anchor.set(0.5);
-            bird.x = app.view.width / 2;
-            bird.y = app.view.height / 2;
-            app.stage.addChild(bird);
-
-            const pipes = [];
-            for (let i = 0; i < 5; i++) {
-                const pipe = new PIXI.Sprite(PIXI.Loader.shared.resources.pipe.texture);
-                pipe.x = app.view.width + pipe.width * i;
-                pipe.y = Math.random() * (app.view.height - pipe.height);
-                pipes.push(pipe);
-                app.stage.addChild(pipe);
-            }
-
-            // 游戏逻辑
-            let birdSpeed = 0;
-            let gravity = 0.5;
-            let pipeSpeed = 2;
-
-            app.ticker.add(() => {
-                // 处理鸟类的运动
-                birdSpeed += gravity;
-                bird.y += birdSpeed;
-
-                // 处理管道的运动
-                pipes.forEach(pipe => {
-                    pipe.x -= pipeSpeed;
-                    if (pipe.x < -pipe.width) {
-                        pipe.x = app.view.width + pipe.width;
-                        pipe.y = Math.random() * (app.view.height - pipe.height);
-                    }
-                });
-
-                // 碰撞检测
-                pipes.forEach(pipe => {
-                    if (bird.getBounds().intersects(pipe.getBounds())) {
-                        console.log("Game Over");
-                    }
-                });
-            });
-        });
-
-        PIXI.Loader.shared.load();
-    </script> -->
 </body>
 </html>
